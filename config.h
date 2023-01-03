@@ -33,6 +33,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+    { "QEMU",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
@@ -50,11 +51,14 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTMOD Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+    { ALTMOD,                       KEY,      focusnthmon,    {.i  = TAG } }, \
+    { ALTMOD|ShiftMask,              KEY,      tagnthmon,      {.i  = TAG } },
+	//{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} },
+	//{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -62,12 +66,17 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[] = {"alacritty", NULL};
+static const char *termcmd[] = {"st", NULL};
 static const char *i3lock[] = {"i3lock", "-i", "/home/martin/Pictures/Wallpapers/double_monitor/portal.png", NULL};
 static const char *flameshot[] = {"flameshot", "gui", NULL};
+static const char *emacs[] = {"emacs", NULL};
 
+#include "shiftview.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_period, shiftview,      {.i = +1} },
+	{ MODKEY,                       XK_comma,  shiftview,      {.i = -1} },
+    { MODKEY,                       XK_e,      spawn,          {.v = emacs } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = flameshot } },
