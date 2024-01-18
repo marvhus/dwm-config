@@ -66,10 +66,12 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[] = {"st", NULL};
-static const char *i3lock[] = {"i3lock", "-i", "/home/martin/Pictures/Wallpapers/double_monitor/portal.png", NULL};
+static const char *termcmd[] = {"alacritty", NULL};
+static const char *i3lock[] = {"i3lock", "-i", "/usr/share/wallpapers/Next/contents/images/1920x1080.png", NULL};
+static const char *lock_sleep[] = {"lock_and_sleep.sh", NULL};
 static const char *flameshot[] = {"flameshot", "gui", NULL};
 static const char *emacs[] = {"emacs", NULL};
+static const char *boomer[] = {"boomer", NULL};
 
 #include "shiftview.c"
 static Key keys[] = {
@@ -81,6 +83,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = flameshot } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = i3lock } },
+    { MODKEY|ShiftMask|ControlMask, XK_l,      spawn,          {.v = lock_sleep } },
+    { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = boomer } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
