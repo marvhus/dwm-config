@@ -247,6 +247,7 @@ static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
+static void togglefullscr_2(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
@@ -1975,6 +1976,32 @@ togglefullscr(const Arg *arg)
 {
     if (selmon->sel)
         setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+}
+
+void
+togglefullscr_2(const Arg *arg)
+{
+    if (!selmon->sel) return;
+    Client *c = selmon->sel;
+
+    c->isfullscreen = !c->isfullscreen;
+
+    if (c->isfullscreen) {
+        c->oldstate = c->isfloating;
+        c->oldbw = c->bw;
+        c->bw = 0;
+        c->isfloating = 1;
+        resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
+    } else {
+        c->isfloating = c->oldstate;
+        c->bw = c->oldbw;
+        c->x = c->oldx;
+        c->y = c->oldy;
+        c->w = c->oldw;
+        c->h = c->oldh;
+        resizeclient(c, c->x, c->y, c->w, c->h);
+        arrange(c->mon);
+    }
 }
 
 void

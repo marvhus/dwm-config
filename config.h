@@ -70,7 +70,7 @@ static const char *termcmd[] = {"alacritty", NULL};
 static const char *i3lock[] = {"i3lock", "-i", "/usr/share/wallpapers/Next/contents/images/1920x1080.png", NULL};
 static const char *lock_sleep[] = {"lock_and_sleep.sh", NULL};
 static const char *flameshot[] = {"flameshot", "gui", NULL};
-static const char *emacs[] = {"emacs", NULL};
+static const char *emacs[] = {"emacs-client", NULL};
 static const char *boomer[] = {"boomer", NULL};
 
 #include "shiftview.c"
@@ -101,6 +101,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+    { MODKEY,                       XK_f,      togglefullscr_2,{0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
